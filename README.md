@@ -40,4 +40,3 @@ npm run dev
 ```
 
 Refer to `docs/` for detailed architecture diagrams, data flow, and API contracts.
-
