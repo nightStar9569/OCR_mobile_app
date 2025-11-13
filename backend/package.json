@@ -1,0 +1,38 @@
+{
+  "name": "ocr-meter-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/main.js",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/helmet": "latest",
+    "@fastify/http-proxy": "latest",
+    "@fastify/rate-limit": "latest",
+    "@fastify/sensible": "latest",
+    "@google-cloud/firestore": "latest",
+    "dotenv": "^17.2.3",
+    "fastify": "latest",
+    "firebase-admin": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/pino": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-import": "latest",
+    "ts-node-dev": "latest",
+    "tsconfig-paths": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}

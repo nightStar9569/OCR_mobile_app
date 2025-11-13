@@ -1,0 +1,35 @@
+
+# Node
+node_modules/
+dist/
+coverage/
+
+# Flutter / Dart
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
+
+# Environment
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+backend/.env.local
+dashboard/.env.local
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
