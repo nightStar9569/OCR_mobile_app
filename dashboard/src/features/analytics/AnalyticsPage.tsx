@@ -13,7 +13,8 @@ export const AnalyticsPage = () => {
     queryKey: ['analytics'],
     queryFn: async () => {
       if (!user) return null;
-      return api.getAnalytics({ token: await user.getIdToken() });
+      // Dev-only: No getIdToken() in mock auth, so pass an empty token or user's uid
+      return api.getAnalytics({ token: user.uid });
     },
     enabled: Boolean(user),
   });
