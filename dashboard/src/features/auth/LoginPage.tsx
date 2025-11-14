@@ -82,9 +82,10 @@ const LoginForm = () => {
   );
 };
 
-export const LoginPage = () => (
-  <AuthProvider>
-    <LoginForm />
-  </AuthProvider>
-);
+export default LoginForm;
+// export const LoginPage = () => (
+//   <AuthProvider>
+//     <LoginForm />
+//   </AuthProvider>
+// );
 
