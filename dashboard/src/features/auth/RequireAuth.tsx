@@ -1,13 +1,17 @@
 import { Navigate, useLocation } from 'react-router-dom';
 
-import { AuthProvider, useAuth } from './AuthContext';
+import { useAuth } from './AuthContext';
 
-const RequireAuthInner = ({ children }: { children: React.ReactNode }) => {
+export const RequireAuth = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="flex h-full items-center justify-center">Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
   }
 
   if (!user) {
@@ -16,10 +20,4 @@ const RequireAuthInner = ({ children }: { children: React.ReactNode }) => {
 
   return <>{children}</>;
 };
-
-export const RequireAuth = ({ children }: { children: React.ReactNode }) => (
-  <AuthProvider>
-    <RequireAuthInner>{children}</RequireAuthInner>
-  </AuthProvider>
-);
 

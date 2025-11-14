@@ -1,52 +1,74 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  type User,
-} from 'firebase/auth';
+// src/features/auth/AuthContext.tsx
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-import { auth } from '../../config/firebase';
+type User = {
+  uid: string;
+  email?: string | null;
+};
 
 type AuthContextValue = {
   user: User | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<User>;
   signOut: () => Promise<void>;
 };
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+const AuthContext = createContext<AuthContextValue | null>(null);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+const LOCAL_USER_KEY = 'mock_app_user_v1';
+
+/**
+ * MockAuthProvider
+ * - lightweight local-storage-backed auth for development
+ * - returns the same API shape used by the app (user, loading, signIn, signOut)
+ *
+ * Replace with real Firebase logic in production.
+ */
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const raw = localStorage.getItem(LOCAL_USER_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (nextUser) => {
-      setUser(nextUser);
+    // Simulate a tiny startup "auth check"
+    setLoading(true);
+    const t = setTimeout(() => {
       setLoading(false);
-    });
-
-    return () => unsubscribe();
+    }, 200);
+    return () => clearTimeout(t);
   }, []);
 
-  const value = useMemo<AuthContextValue>(
+  const signIn = async (email: string) => {
+    setLoading(true);
+    // simulate server delay
+    await new Promise((r) => setTimeout(r, 200));
+    const mockUser: User = { uid: 'local-' + (email || 'user'), email };
+    setUser(mockUser);
+    localStorage.setItem(LOCAL_USER_KEY, JSON.stringify(mockUser));
+    setLoading(false);
+    return mockUser;
+  };
+
+  const signOut = async () => {
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 150));
+    setUser(null);
+    localStorage.removeItem(LOCAL_USER_KEY);
+    setLoading(false);
+  };
+
+  const value = useMemo(
     () => ({
       user,
       loading,
-      async signIn(email: string, password: string) {
-        await signInWithEmailAndPassword(auth, email, password);
-      },
-      async signOut() {
-        await firebaseSignOut(auth);
-      },
+      signIn,
+      signOut,
     }),
     [user, loading],
   );
@@ -54,11 +76,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
+export const useAuth = (): AuthContextValue => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
     throw new Error('useAuth must be used within AuthProvider');
   }
-  return context;
+  return ctx;
 };
-

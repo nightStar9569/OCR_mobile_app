@@ -9,20 +9,20 @@ import { RequireAuth } from './features/auth/RequireAuth';
 const App = () => {
   return (
     <Routes>
-      {/* <Route path="/login" element={<LoginPage />} /> */}
-      <Route
-        path="/"
-        element={
-          <RequireAuth>
-            <AppLayout />
-          </RequireAuth>
-        }
-      >
-        <Route index element={<AnalyticsPage />} />
-        <Route path="readings" element={<ReadingsPage />} />
-        <Route path="exceptions" element={<ExceptionsPage />} />
-      </Route>
-    </Routes>
+       <Route path="/login" element={<LoginPage />} />
+       <Route
+         path="/"
+         element={
+           <RequireAuth>
+             <AppLayout />
+           </RequireAuth>
+         }
+       >
+         <Route index element={<AnalyticsPage />} />
+         <Route path="readings" element={<ReadingsPage />} />
+         <Route path="exceptions" element={<ExceptionsPage />} />
+       </Route>
+     </Routes>
   );
 };
 

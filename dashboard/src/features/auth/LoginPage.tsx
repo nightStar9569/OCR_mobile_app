@@ -1,91 +1,72 @@
-import { useState } from 'react';
+// src/features/auth/LoginPage.tsx
+import React, { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Container,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, Paper, Stack, TextField, Typography } from '@mui/material';
+import { useAuth } from './AuthContext';
 
-import { AuthProvider, useAuth } from './AuthContext';
-
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
   const { signIn, user, loading } = useAuth();
-  const location = useLocation();
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation() as any;
+  const from = (location.state && location.state.from) || '/';
 
-  if (user && !loading) {
-    const redirectTo = (location.state as { from?: Location })?.from?.pathname ?? '/';
-    return <Navigate to={redirectTo} replace />;
+  if (user) {
+    // already signed in: redirect to origin
+    return <Navigate to={from} replace />;
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
+  const handleSubmit = async (ev: React.FormEvent) => {
+    ev.preventDefault();
+    setSubmitting(true);
     try {
       await signIn(email, password);
-      navigate('/', { replace: true });
+      navigate(from, { replace: true });
     } catch (err) {
-      setError((err as Error).message);
+      console.error('Login failed', err);
+      // in real app show user-facing error
+      alert('Sign in failed (mock). Try any email/password.');
     } finally {
-      setIsSubmitting(false);
+      setSubmitting(false);
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Paper elevation={3} sx={{ mt: 12, p: 4 }}>
-        <Stack component="form" spacing={3} onSubmit={handleSubmit}>
-          <Box>
-            <Typography variant="h5" gutterBottom>
-              Supervisor Login
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Enter your credentials to access the dashboard.
-            </Typography>
-          </Box>
+    <Container maxWidth="sm" sx={{ mt: 8 }}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Stack spacing={2} component="form" onSubmit={handleSubmit}>
+          <Typography variant="h5">Sign in</Typography>
           <TextField
             label="Email"
-            type="email"
+            autoComplete="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            fullWidth
           />
           <TextField
             label="Password"
             type="password"
+            autoComplete="current-password"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
-            fullWidth
           />
-          {error && (
-            <Typography color="error" variant="body2">
-              {error}
-            </Typography>
-          )}
-          <Button type="submit" variant="contained" size="large" disabled={isSubmitting}>
-            {isSubmitting ? 'Signing in...' : 'Sign in'}
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+            <Button variant="text" onClick={() => { setEmail('demo@example.com'); setPassword('demo'); }}>
+              Fill demo
+            </Button>
+            <Button type="submit" variant="contained" disabled={isSubmitting || loading}>
+              {isSubmitting || loading ? 'Signing in...' : 'Sign in'}
+            </Button>
+          </Box>
         </Stack>
       </Paper>
     </Container>
   );
 };
 
-export default LoginForm;
-// export const LoginPage = () => (
-//   <AuthProvider>
-//     <LoginForm />
-//   </AuthProvider>
-// );
+const LoginPage: React.FC = () => <LoginForm />;
 
+export default LoginPage;

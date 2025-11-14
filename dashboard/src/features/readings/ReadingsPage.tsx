@@ -30,7 +30,7 @@ export const ReadingsPage = () => {
     queryFn: async () => {
       if (!user) return [];
       return api.listReadings({
-        token: await user.getIdToken(),
+        token: user.uid,
         status: statusFilter,
       });
     },
@@ -45,8 +45,8 @@ export const ReadingsPage = () => {
       readingId: string;
       status: 'verified' | 'rejected';
     }) => {
-      const token = await user?.getIdToken();
-      if (!token) throw new Error('No auth token');
+      if (!user) throw new Error('No auth user');
+      const token = user.uid;
       await api.verifyReading({ token, readingId, status });
     },
     onSuccess: () => {
