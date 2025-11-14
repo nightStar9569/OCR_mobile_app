@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-
 import { AppLayout } from './components/Layout/AppLayout';
 import { AnalyticsPage } from './features/analytics/AnalyticsPage';
 import { ExceptionsPage } from './features/exceptions/ExceptionsPage';
