@@ -68,6 +68,23 @@ export const AppLayout = () => {
     navigate('/login');
   };
 
+  // Get page title based on current route
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path === '/') return 'Dashboard';
+    if (path === '/users') return 'User Management';
+    if (path === '/customers') return 'Customer Management';
+    if (path === '/routes') return 'Route Assignment';
+    if (path === '/reading-analytics') return 'Reading Analytics';
+    if (path === '/ocr-performance') return 'OCR Performance';
+    if (path === '/image-review') return 'Image Review';
+    if (path === '/sync-status') return 'Sync Status';
+    if (path === '/exceptions') return 'Exception Management';
+    if (path === '/reports') return 'Reports Generator';
+    if (path === '/settings') return 'System Settings';
+    return 'Dashboard';
+  };
+
   const drawer = (
     <Box>
       <Toolbar
@@ -160,7 +177,7 @@ export const AppLayout = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 500 }}>
-            Dashboard
+            {getPageTitle()}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>

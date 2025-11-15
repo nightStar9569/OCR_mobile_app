@@ -7,6 +7,7 @@ import { ReadingsPage } from './features/readings/ReadingsPage';
 import { RequireAuth } from './features/auth/RequireAuth';
 import { UserManagementPage } from './features/users/UserManagementPage';
 import { CustomerManagementPage } from './features/customers/CustomerManagementPage';
+import { RouteAssignmentPage } from './features/routes/RouteAssignmentPage';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
          <Route index element={<AnalyticsPage />} />
          <Route path="users" element={<UserManagementPage />} />
          <Route path="customers" element={<CustomerManagementPage />} />
+         <Route path="routes" element={<RouteAssignmentPage />} />
          <Route path="readings" element={<ReadingsPage />} />
          <Route path="exceptions" element={<ExceptionsPage />} />
        </Route>
