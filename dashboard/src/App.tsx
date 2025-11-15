@@ -10,6 +10,7 @@ import { CustomerManagementPage } from './features/customers/CustomerManagementP
 import { RouteAssignmentPage } from './features/routes/RouteAssignmentPage';
 import { ReadingAnalyticsPage } from './features/reading-analytics/ReadingAnalyticsPage';
 import { OCRPerformancePage } from './features/ocr-performance/OCRPerformancePage';
+import { ImageReviewPage } from './features/image-review/ImageReviewPage';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
          <Route path="routes" element={<RouteAssignmentPage />} />
          <Route path="reading-analytics" element={<ReadingAnalyticsPage />} />
          <Route path="ocr-performance" element={<OCRPerformancePage />} />
+         <Route path="image-review" element={<ImageReviewPage />} />
          <Route path="readings" element={<ReadingsPage />} />
          <Route path="exceptions" element={<ExceptionsPage />} />
        </Route>
