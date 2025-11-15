@@ -11,6 +11,7 @@ import { RouteAssignmentPage } from './features/routes/RouteAssignmentPage';
 import { ReadingAnalyticsPage } from './features/reading-analytics/ReadingAnalyticsPage';
 import { OCRPerformancePage } from './features/ocr-performance/OCRPerformancePage';
 import { ImageReviewPage } from './features/image-review/ImageReviewPage';
+import { SyncStatusPage } from './features/sync-status/SyncStatusPage';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
          <Route path="reading-analytics" element={<ReadingAnalyticsPage />} />
          <Route path="ocr-performance" element={<OCRPerformancePage />} />
          <Route path="image-review" element={<ImageReviewPage />} />
+         <Route path="sync-status" element={<SyncStatusPage />} />
          <Route path="readings" element={<ReadingsPage />} />
          <Route path="exceptions" element={<ExceptionsPage />} />
        </Route>
